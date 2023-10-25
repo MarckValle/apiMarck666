@@ -12,7 +12,7 @@
           labels: nombres,
           datasets: [{
               label: "Preferencias de Entrega",
-              backgroundColor: "rgba(78, 115, 223, 0.05)",
+              backgroundColor: "rgba(240, 28, 50, 0.5)",
               borderColor: "rgba(78, 115, 223, 1)",
               borderWidth: 1,
               data: conteos,

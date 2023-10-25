@@ -11,7 +11,7 @@ var myBarChart = new Chart(ctx, {
         labels: nombres,
         datasets: [{
             label: "Preferencias de Pago",
-            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            backgroundColor: "rgba(249,245,27, 0.5)",
             borderColor: "rgba(78, 115, 223, 1)",
             borderWidth: 1,
             data: conteos,
