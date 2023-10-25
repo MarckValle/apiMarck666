@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from api.views import Home
 from api.views import inicio
+from api.views import Dashboard
 from api.views import Catalogo
 from api.views import Nosotros
 from api.views import Carrito
@@ -25,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('form/', views.formulario_verificacion,name='form'),
     path('login/', views.login,name='login'),
+    path('dashboard/', Dashboard.as_view(),name='dashboard'),
     path('index1/', views.index, name='index1'), 
     path('', inicio.as_view(), name='index'),
     path('Menu/', Catalogo.as_view(), name='menu'),

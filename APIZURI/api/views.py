@@ -2,7 +2,9 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from rest_framework.views import APIView
+from api.models import datos
 from api.models import inicio_sesion
+from django.db.models import Count
 
 
 # Create your views here.
@@ -30,6 +32,27 @@ class Nosotros(APIView):
     template_nam="about.html"
     def get(self, request):
         return render(request, self.template_nam)
+    
+class Dashboard(APIView):
+    template_nam="dashboard.html"
+    def get(self, request):
+        # Obtén todos los objetos de TuModelo
+        objetos = datos.objects.all()
+        print(objetos)
+        # Pasa los objetos a la plantilla como contexto
+        conteo_por_edad = datos.objects.values('edad').annotate(count=Count('edad'))
+        conteo_por_api = datos.objects.values('p1').annotate(count=Count('p1'))
+        conteo_por_pago = datos.objects.values('p4').annotate(count=Count('p4'))
+        print(conteo_por_api)
+        context = {
+            'objetos': objetos,
+            'conteo_por_edad': conteo_por_edad,
+            'conteo_por_api': conteo_por_api,
+            'conteo_por_pago': conteo_por_pago
+        }
+        
+        # Renderiza la plantilla con el contexto
+        return render(request, self.template_nam, context)
    
 def formulario(request):
     if request.method=='POST':
@@ -65,24 +88,36 @@ def index(request):
 
 
 from django.utils.crypto import get_random_string
-
+from django.core.exceptions import ValidationError
 def formulario_verificacion(request):
     if request.method == 'POST':
         nombre = request.POST['nombreUsuario']
         email = request.POST['correo']
         pswd = request.POST['passw'] 
 
-        # Guardar el usuario en la base de datos
-        inicio_sesion(username=nombre, name=email, passw=pswd).save()
+        try:
+            # Verificar si el correo ya existe en la base de datos
+            if inicio_sesion.objects.filter(name=email).exists():
+                raise ValidationError("Este correo electrónico ya está registrado.")
 
-        # Enviar correo de verificación
-        subject = 'Verificación de registro'
-        message = f'¡Gracias por registrarte en nuestro sitio! Por favor, haz clic en el siguiente enlace para verificar tu cuenta: http://tudominio.com/verificar/{get_random_string()}'
-        from_email = 'marco.vallejo2000@gmail.com'  # Debe ser una dirección de correo configurada en tu servidor de correo
+            # Guardar el usuario en la base de datos
+            usuario = inicio_sesion(username=nombre, name=email, passw=pswd)
+            usuario.full_clean()  # Esto verifica las restricciones del modelo
+            usuario.save()
 
-        send_mail(subject, message, from_email, [email])
+            # Enviar correo de verificación
+            subject = 'Verificación de registro'
+            message = f'¡Gracias por registrarte en nuestro sitio! Por favor, haz clic en el siguiente enlace para verificar tu cuenta: http://tudominio.com/verificar/{get_random_string()}'
+            from_email = 'marco.vallejo2000@gmail.com'  # Debe ser una dirección de correo configurada en tu servidor de correo
 
-        messages.success(request, 'USUARIO REGISTRADO. Por favor, verifica tu correo.')
-        return render(request, 'SIGN UP & SIGN IN PAGE.html')
+            send_mail(subject, message, from_email, [email])
+
+            messages.success(request, 'USUARIO REGISTRADO. Por favor, verifica tu correo.')
+            return render(request, 'SIGN UP & SIGN IN PAGE.html')
+
+        except ValidationError as e:
+            messages.error(request, str(e))
+            return render(request, 'SIGN UP & SIGN IN PAGE.html')
+
     else:
         return render(request, 'SIGN UP & SIGN IN PAGE.html')
