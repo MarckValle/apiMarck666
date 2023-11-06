@@ -1,6 +1,5 @@
-
-  var nombres = document.getElementById('myBarChart').getAttribute('data-api').split(',').filter(Boolean);
-  var conteos = document.getElementById('myBarChart').getAttribute('data-conteo').split(',').filter(Boolean);
+var nombres = document.getElementById('myBarChart').getAttribute('data-api').split(',').filter(Boolean);
+var conteos = document.getElementById('myBarChart').getAttribute('data-conteo').split(',').filter(Boolean);
 
   // Asegúrate de que los conteos sean números
   conteos = conteos.map(Number);

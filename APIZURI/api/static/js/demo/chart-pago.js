@@ -6,11 +6,11 @@ conteos = conteos.map(Number);
 
 var ctx = document.getElementById("myAreaChartPago");
 var myBarChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: nombres,
         datasets: [{
-            label: "Preferencias de Pago",
+            label: "Preferencia de pago para comprar",
             backgroundColor: "rgba(249,245,27, 0.5)",
             borderColor: "rgba(78, 115, 223, 1)",
             borderWidth: 1,

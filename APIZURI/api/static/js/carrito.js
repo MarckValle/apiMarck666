@@ -109,3 +109,15 @@ const showHTML = () => {
     countProducts.innerText = totalProducts;
     console.log(totalProducts)
 };
+
+// const guardarCarritoEnLocalStorage = () => {
+//     localStorage.setItem('carrito', JSON.stringify(allproducts));
+// };
+
+// const cargarCarritoDesdeLocalStorage = () => {
+//     const carritoGuardado = JSON.parse(localStorage.getItem('carrito'));
+//     if (carritoGuardado) {
+//         allproducts = carritoGuardado;
+//         showHTML(); // Actualizar la interfaz con los productos del carrito
+//     }
+// };

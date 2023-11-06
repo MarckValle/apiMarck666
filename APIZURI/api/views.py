@@ -46,6 +46,7 @@ class Dashboard(APIView):
         conteo_datos = datos.objects.values_list('idUser', flat=True).order_by('-idUser').first()
         dato_mas_comun = datos.objects.values('p7').annotate(count=Count('p7')).order_by('-count').first()
         hora_comun = datos.objects.values('p5').annotate(count=Count('p5')).order_by('-count').first()
+        pasos_comun = datos.objects.values('p3').annotate(count=Count('p3'))
         print(conteo_datos)
         print(conteo_por_api)
         context = {
@@ -55,7 +56,8 @@ class Dashboard(APIView):
             'conteo_por_pago': conteo_por_pago,
             'conteo_datos' : conteo_datos,
             'dato_mas_comun' : dato_mas_comun,
-            'hora_comun' : hora_comun
+            'hora_comun' : hora_comun,
+            'pasos_comun' : pasos_comun
             
         }
         

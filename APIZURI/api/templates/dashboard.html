@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="shortcut icon" href="{% static 'images/s1.png' %}" type="png">
     <title>Admin Mamá Macha</title>
 
     <!-- Custom fonts for this template-->
@@ -537,7 +537,7 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
-
+                                        
 
                                         <canvas id="myPieChart"
                                             data-edades="{% for item in conteo_por_edad %}{{ item.edad }},{% endfor %}"
@@ -545,10 +545,7 @@
 
                                     </div>
                                     <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Coloca el cursor para conocer las
-                                            edades
-                                        </span>
+                                        
 
                                     </div>
                                 </div>
@@ -676,44 +673,28 @@
 
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Preferencias de entrega en la compra.</h6>
+                                </div>
+                                <div class="card-body">
 
-
-                                <canvas id="myBarChart"
+                                <canvas id="myBarChart" width="1200px"
                                     data-api="{% for item in conteo_por_api %}{{ item.p1 }},{% endfor %}"
                                     data-conteo="{% for item in conteo_por_api %}{{ item.count }},{% endfor %}"></canvas>
 
                             </div>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Coloca el cursor para conocer las edades
-                            </span>
+                            
                             <!--    Approach -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Pasos para realizar la compra.</h6>
                                 </div>
                                 <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar with the
-                                        Bootstrap framework, especially the utility classes.</p>
+                                    <canvas id="chart-pasos" width="800" height="500" 
+                                            data-pasos="{% for item in pasos_comun %}{{ item.p3 }},{% endfor %}"
+                                            data-conteo="{% for item in pasos_comun %}{{ item.count }},{% endfor %}">
+                                    </canvas>
 
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre22</th>
-                                                <th>Descripción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for objeto in objetos %}
-                                            <tr>
-                                                <td>{{ objeto.edad }}</td>
-                                                <td>{{ objeto.correo }}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
 
@@ -786,6 +767,7 @@
     <script src="{%static '../static/js/demo/chart-pago.js'%}"></script>
     <script src="{%static '../static/js/demo/chart-pie-demo.js'%}"></script>
     <script src="{%static '../static/js/demo/chart-bar-demo.js'%}"></script>
+    <script src="{%static '../static/js/demo/chart-pasos.js'%}"></script>
 
 </body>
 
