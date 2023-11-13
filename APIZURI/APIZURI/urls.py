@@ -21,7 +21,9 @@ from api.views import Dashboard
 from api.views import Catalogo
 from api.views import Nosotros
 from api.views import Carrito
+from api.views import pay
 from api import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('form/', views.formulario_verificacion,name='form'),
@@ -31,6 +33,10 @@ urlpatterns = [
     path('', inicio.as_view(), name='index'),
     path('Menu/', Catalogo.as_view(), name='menu'),
     path('Acerca De/', Nosotros.as_view(), name='about'),
-    path('CarritoCompras', Carrito.as_view(), name='carrito')
+    path('CarritoCompras', Carrito.as_view(), name='carrito'),
+    path('paypalpruebas', pay.as_view(), name='paypal'),
+    path('payment/', views.CheckOut, name='payment'),
+    path('success/', views.success, name='success'),
+    path('cancel/', views.cancel, name='cancel'),
     
 ]

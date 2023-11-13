@@ -1,4 +1,5 @@
 from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from rest_framework.views import APIView
@@ -6,6 +7,18 @@ from api.models import datos
 from api.models import inicio_sesion
 from django.db.models import Count
 from django.db.models import Sum
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
+from django.shortcuts import render
+import paypalrestsdk
+def success(request):
+    # Aquí puedes realizar acciones adicionales después de una transacción exitosa
+    return render(request, 'success.html')  # Puedes crear una plantilla "success.html" con un mensaje de éxito
+
+def cancel(request):
+    # Aquí puedes realizar acciones adicionales cuando el usuario cancela la transacción
+    return render(request, 'cancel.html')  # Puedes crear una plantilla "cancel.html" con un mensaje de cancelación
 
 # Create your views here.
 class Home(APIView):
@@ -15,6 +28,12 @@ class Home(APIView):
 class Carrito(APIView):
     template_name="book.html"
     def get(self, request):
+        return render(request, self.template_name)
+class pay(APIView):
+    template_name="book copy.html"
+    def get(self, request):
+        return render(request, self.template_name)
+    def post(self, request):
         return render(request, self.template_name)
     
 class inicio(APIView):
@@ -27,6 +46,8 @@ class inicio(APIView):
 class Catalogo(APIView):
     template_nam="menu.html"
     def get(self, request):
+        return render(request, self.template_nam)
+    def post(self, request):
         return render(request, self.template_nam)
 class Nosotros(APIView):
     template_nam="about.html"
@@ -132,3 +153,120 @@ def formulario_verificacion(request):
 
     else:
         return render(request, 'SIGN UP & SIGN IN PAGE.html')
+    
+
+@csrf_exempt
+# def create_payment(request):
+#     paypal_config.payment({
+#         "intent": "sale",
+#         "payer": {
+#             "payment_method": "paypal"
+#         },
+#         "redirect_urls": {
+#             "return_url": "http://127.0.0.1:8000/success/",
+#             "cancel_url": "http://127.0.0.1:8000/cancel/"
+#         },
+#         "transactions": [{
+#             "item_list": {
+#                 "items": [{
+#                     "name": "Item de prueba",
+#                     "sku": "item",
+#                     "price": "10.00",
+#                     "currency": "USD",
+#                     "quantity": 1
+#                 }]
+#             },
+#             "amount": {
+#                 "total": "10.00",
+#                 "currency": "USD"
+#             },
+#             "description": "Compra de prueba"
+#         }]
+#     })
+  
+#     if Payment.create(request):
+#         for link in Payment.links:
+#             if link.method == "REDIRECT":
+#                 redirect_url = link.href
+#                 return HttpResponseRedirect(redirect_url)
+#     else:  
+#         print(Payment.error)
+
+
+#     return render(request, 'payment.html')
+
+
+def create_payment(request):
+    paypalrestsdk.configure({
+        "mode": "sandbox",  # sandbox or live
+        'client_id': "AcSvt8ORvhMoD2E2XNUo33-L5BZGj8W5csa7TEZ_x1kSz5E-e_9XMrb3oWYNx7QeN03Sx6LV_8fRjSMp",  # Reemplaza con tu ID de cliente de PayPal
+        'client_secret': "EPPCASPCg53q6wpwWsejpa7BK55JppwLTpbB0sV_RBQ4zGm2UFyFC3MKyuXGCoj9BaDtqUTM2C2Rt2C8",  # Reemplaza con tu secreto de cliente de PayPal
+    })
+
+    payment = paypalrestsdk.configure({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "credit_card",
+            "funding_instruments": [
+                {
+                    "credit_card": {
+                        "number": "4111111111111111",  # Número de tarjeta de prueba
+                        "type": "visa",
+                        "expire_month": 12,
+                        "expire_year": 2022,
+                        "cvv2": "123",
+                        "first_name": "John",
+                        "last_name": "Doe"
+                    }
+                }
+            ]
+        },
+        "transactions": [
+            {
+                "amount": {
+                    "total": "6.70",
+                    "currency": "USD"
+                },
+                "description": "Payment by credit card."
+            }
+        ]
+    })
+
+    if payment.create():
+        print(payment.id)
+        print("Payment created successfully")
+    else:
+        print(payment.error)
+from django.shortcuts import render
+
+from paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+import uuid
+from django.urls import reverse
+
+def CheckOut(request):
+
+    
+
+    host = request.get_host()
+
+    paypal_checkout = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': '20',
+        'item_name': 'Skateboarding',
+        'invoice': uuid.uuid4(),
+        'currency_code': 'USD',
+        'return_url': "http://127.0.0.1:8000/payment/",
+        'return_url': "http://127.0.0.1:8000/success/",
+        'cancel_url': "http://127.0.0.1:8000/cancel/"
+    }
+
+    paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
+
+    context = {
+        'product': '1',
+        'paypal': paypal_payment
+    }
+
+    return render(request,'payment.html', context)
+

@@ -14,6 +14,9 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# settings.py
+import mimetypes
+mimetypes.add_type("application/javascript", ".js", True)
 
 
 # Quick-start development settings - unsuitable for production
@@ -140,3 +143,8 @@ EMAIL_HOST_USER = 'marco.vallejo2000@gmail.com' #correo
 EMAIL_HOST_PASSWORD = 'guphsxdeilkvdtex' #contraseña de gmail
 # Opcional: Configuración para el nombre del remitente predeterminado
 DEFAULT_FROM_EMAIL = 'marco.vallejo2000@gmail.com'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+PAYPAL_RECEIVER_EMAIL = 'sb-e5wge15189441@business.example.com' # where cash is paid into
+PAYPAL_TEST = True
