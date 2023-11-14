@@ -20,7 +20,7 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # settings.py
-import mimetypes    
+import mimetypes       
 mimetypes.add_type("application/javascript", ".js", True)
 env = environ.Env()
 env.read_env()
