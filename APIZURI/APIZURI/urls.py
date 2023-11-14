@@ -23,6 +23,8 @@ from api.views import Nosotros
 from api.views import Carrito
 from api.views import pay
 from api import views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

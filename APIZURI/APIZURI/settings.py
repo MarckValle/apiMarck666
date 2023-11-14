@@ -11,12 +11,20 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import os 
+import dj_database_url
+import environ
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # settings.py
-import mimetypes
+import mimetypes    
 mimetypes.add_type("application/javascript", ".js", True)
+env = environ.Env()
+env.read_env()
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +36,7 @@ SECRET_KEY = 'django-insecure-gvqkgo_*c1v)+ok44aj6bg5l40bp*1ulrc)$o2-5(jxpojh@tz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,15 +89,21 @@ WSGI_APPLICATION = 'APIZURI.wsgi.application'
 
 DATABASES = {
     
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'datos_macha',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost', # o la dirección de tu servidor de base de datos
-        'PORT': '5432', # el puerto por defecto para PostgreSQL
+    'default': dj_database_url.parse(env('DATABASE_URL'))
 }
-}
+
+# DATABASES = {
+    
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'datos_macha',
+#         'USER': 'postgres',
+#         'PASSWORD': '1234',
+#         'HOST': 'localhost', # o la dirección de tu servidor de base de datos
+#         'PORT': '5432', # el puerto por defecto para PostgreSQL
+#     }
+# }
+
 
 
 # Password validation
@@ -129,7 +143,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+MEDIA_URL = 'media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
