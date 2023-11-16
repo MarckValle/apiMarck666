@@ -100,11 +100,12 @@ const showHTML = () => {
         });
 
         valorTotal.innerText = `$${total}`;
+        console.log(total);
         countProducts.innerText = totalProducts;
     }
 
     // Debugging: Mostrar el estado actual de allproducts
-    
+   
 };
 
 

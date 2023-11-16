@@ -92,17 +92,17 @@ DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
 
-# DATABASES = {
+DATABASES = {
     
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'datos_macha',
-#         'USER': 'postgres',
-#         'PASSWORD': '1234',
-#         'HOST': 'localhost', # o la dirección de tu servidor de base de datos
-#         'PORT': '5432', # el puerto por defecto para PostgreSQL
-#     }
-# }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'datos_macha',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost', # o la dirección de tu servidor de base de datos
+        'PORT': '5432', # el puerto por defecto para PostgreSQL
+    }
+}
 
 
 
@@ -160,5 +160,6 @@ DEFAULT_FROM_EMAIL = 'marco.vallejo2000@gmail.com'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-PAYPAL_RECEIVER_EMAIL = 'sb-e5wge15189441@business.example.com' # where cash is paid into
-PAYPAL_TEST = True
+PAYPAL_RECEIVER_EMAIL = 'marco.vallejo2000@gmail.com' # where cash is paid into
+PAYPAL_TEST = False
+#PAYPAL_BUY_BUTTON_IMAGE = 'https://res.cloudinary.com/the-proton-guy/image/upload/v1685882223/paypal-PhotoRoom_v9pay7.png'

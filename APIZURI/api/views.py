@@ -249,13 +249,13 @@ def CheckOut(request):
     
 
     host = request.get_host()
-
+    total = request.session.get('total', 0)
     paypal_checkout = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': '20',
-        'item_name': 'Skateboarding',
+        'amount': str(total),
+        'item_name': 'Salsa Macha',
         'invoice': uuid.uuid4(),
-        'currency_code': 'USD',
+        'currency_code': 'MXN',
         'return_url': "http://127.0.0.1:8000/payment/",
         'return_url': "http://127.0.0.1:8000/success/",
         'cancel_url': "http://127.0.0.1:8000/cancel/"
